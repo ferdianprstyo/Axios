@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Axios</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Belajar Axios</h1>
+    <button onclick="addUser()"> add user </button>
+    <button onclick="updateUser()"> update user </button>
+    <button onclick="deleteUser()"> delete user </button>
+    <script>
+
+            const myInstance = axios.create({
+            baseURL: "http://localhost:3000",
+        })
+            myInstance
+            .get("/users")
+            .then((response) => {
+                console.log("~ file: index.html ~ line 15 ~ response", response);
+            })
+            .catch((err) => {
+                console.log("~ file: index.html ~ line 18 ~ err", err);
+            })
+            .finally(() => {
+                console.log("request selesai");
+            });
+
+         function addUser() 
+         {
+            const newUser = {
+                name: "Ajat",
+                email: "ajat@mail.com",
+            };
+
+            myInstance
+                .post("/users", newUser)
+                .then((response) => {
+                    console.log("~ file: index.html ~ line 31 ~ .then ~ response", response);
+                })
+                .catch((err) => {
+                    console.log("~ file: index.html ~ line 34 ~ addUser ~ err", err);
+                })
+                .finally(() => {
+                    console.log("request selesai");
+                });
+         }
+
+         function updateUser(){
+            const updateUser = {
+                name: "Udin updated",
+                email: "udinupdated@mail.com"
+            };
+
+            const userId = 1;
+
+            //    axios
+            //    .put(`http://localhost:3000/users/${userId}`, updateUser)
+            //    .then(({data}) => {
+            //        console.log("~ file: index.html ~ line 56 ~ .then ~ data", data);
+            //    })
+            //    .catch((err) => {
+            //        console.log("~ file: index.html ~ line 59 ~ addUser ~ err", err);
+            //    })
+            //    .finally(() => {
+            //        console.log("request selesai");
+            //    });
+        
+            myInstance({
+                method: "PUT",
+                url: `/users/${userId}`,
+                data: updateUser,
+            })
+                .then(({data}) => {
+                        console.log("~ file: index.html ~ line 56 ~ .then ~ data", data);
+                    })
+                    .catch((err) => {
+                        console.log("~ file: index.html ~ line 59 ~ addUser ~ err", err);
+                    })
+                    .finally(() => {
+                        console.log("request selesai");
+                    });
+            
+        }
+
+         function deleteUser(){
+            cosnt userId = 4;
+
+            myInstance
+            .delete(`/users/${userId}`)
+            .then(({data}) => {
+                    console.log("~ file: index.html ~ line 72 ~ .then ~ data", data);
+                })
+                .catch((err) => {
+                    console.log("~ file: index.html ~ line 75 ~ addUser ~ err", err);
+                })
+                .finally(() => {
+                    console.log("request selesai");
+                });
+         }
+    </script>
+</body>
+</html></html>
